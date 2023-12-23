@@ -6,9 +6,21 @@ class DiscordAlert
 {
     protected string $webhookUrlName = 'default';
 
+    protected ?string $username = null;
+
+    protected ?string $avatarUrl = null;
+
     public function to(string $webhookUrlName): self
     {
         $this->webhookUrlName = $webhookUrlName;
+
+        return $this;
+    }
+
+    public function from(?string $username = null, ?string $avatarUrl = null): self
+    {
+        $this->username = $username;
+        $this->avatarUrl = $avatarUrl;
 
         return $this;
     }
@@ -33,6 +45,8 @@ class DiscordAlert
             'text' => $text,
             'webhookUrl' => $webhookUrl,
             'embeds' => $embeds,
+            'username' => $this->username,
+            'avatar_url' => $this->avatarUrl,
         ];
 
         $job = Config::getJob($jobArguments);
